@@ -1,131 +1,137 @@
+// Library Imports
 import React, { useState, useEffect, useContext } from "react";
-import Web3Modal from "web3modal";
-import { ethers } from "ethers";
 import { useRouter } from "next/router";
+import { ethers } from "ethers";
 import axios from "axios";
-import { create as ipfsHttpClient } from "ipfs-http-client";
+import Web3Modal from "web3modal";
 
-// remove feuture from infura to connect API
-
-// const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
-
-const projectId = "2LRzojdW6k7pHCaQPH5C6oN2cOl";
-const projectSecretKey = "d555b8395fb6630a48ad8cbdc5019532";
-const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
-  "base64"
-)}`;
-
-const subdomain = "https://nftplace.infura-ipfs.io";
-
-const client = ipfsHttpClient({
-  host: "infura-ipfs.io",
-  port: 5001,
-  protocol: "https",
-  headers: {
-    authorization: auth,
-  },
-});
-
-//INTERNAL  IMPORT
+// Custom Functions Import
 import {
-  NFTMarketplaceAddress,
-  NFTMarketplaceABI,
-  transferFundsAddress,
-  transferFundsABI,
-} from "./constants";
-
-//---FETCHING SMART CONTRACT
-const fetchContract = (signerOrProvider) =>
-  new ethers.Contract(
-    NFTMarketplaceAddress,
-    NFTMarketplaceABI,
-    signerOrProvider
-  );
-
-//---CONNECTING WITH SMART CONTRACT
-
-const connectingWithSmartContract = async () => {
-  try {
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-
-    const contract = fetchContract(signer);
-    return contract;
-  } catch (error) {
-    console.log("Something went wrong while connecting with contract", error);
-  }
-};
+  client,
+  connectingWithSmartContract,
+  fetchContract,
+  fetchTransferFundsContract,
+  getAccounts,
+  requestAccounts,
+  subdomain,
+} from "./context-utils";
 
 export const NFTMarketplaceContext = React.createContext();
 
 export const NFTMarketplaceProvider = ({ children }) => {
   const titleData = "Explore, Gather, and Sell NFTs";
 
-  //------USESTAT
   const [error, setError] = useState("");
   const [openError, setOpenError] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
 
-  //---CHECK IF WALLET IS CONNECTD
-  console.log(currentAccount);
-  const checkIfWalletConnected = async () => {
+  // console.log(
+  //   `error=>${error} / openError=>${openError} / currentAccount=>${currentAccount} / accountBalance=>${accountBalance}`
+  // );
+
+  const walletRequests = async (func) => {
     try {
-      if (!window.ethereum)
-        return setOpenError(true), setError("Install MetaMask");
-
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-
-      if (accounts.length) {
-        setCurrentAccount(accounts[0]);
-        // console.log(accounts[0]);
-      } else {
-        // setError("No Account Found");
-        // setOpenError(true);
-        console.log("No account");
-      }
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const getBalance = await provider.getBalance(accounts[0]);
-      const bal = ethers.utils.formatEther(getBalance);
-      setAccountBalance(bal);
+      return func();
     } catch (error) {
-      // setError("Something wrong while connecting to wallet");
-      // setOpenError(true);
-      console.log("not connected");
+      if (error.code === 4001) {
+        setError(
+          "User Reject the request to connect to the wallet. Please allow your wallet to be accessed!"
+        );
+        setOpenError(true);
+        return [];
+      }
+      return "continue";
     }
   };
 
-  // useEffect(() => {
-  //   // checkIfWalletConnected();
-  //   // connectingWithSmartContract();
-  // }, []);
-
-  //---CONNET WALLET FUNCTION
   const connectWallet = async () => {
     try {
-      if (!window.ethereum)
+      if (!window.ethereum || (window.ethereum && !window.ethereum.isMetaMask))
         return setOpenError(true), setError("Install MetaMask");
 
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
+      const accounts = await walletRequests(async () => {
+        return await requestAccounts();
       });
-
       console.log(accounts);
-      setCurrentAccount(accounts[0]);
-
-      // window.location.reload();
-      connectingWithSmartContract();
+      if (accounts !== "continue") {
+        if (
+          typeof accounts !== "undefined" &&
+          accounts &&
+          accounts.length > 0
+        ) {
+          return await checkIfWalletConnected();
+        } else {
+          setCurrentAccount([]);
+          setError("No Account Found. Please give app access of the account!");
+          setOpenError(true);
+        }
+      }
     } catch (error) {
-      // setError("Error while connecting to wallet");
-      // setOpenError(true);
+      if (error.code === 4001) {
+        setError(
+          "User Reject the request to connect to the wallet. Please allow your wallet to be accessed!"
+        );
+        setOpenError(true);
+      } else if (error.code !== -32002) {
+        setError("Something wrong while connecting to wallet!");
+        setOpenError(true);
+      }
     }
   };
+
+  const checkIfWalletConnected = async () => {
+    try {
+      if (!window.ethereum || (window.ethereum && !window.ethereum.isMetaMask))
+        return setOpenError(true), setError("Install MetaMask");
+
+      const accounts = await walletRequests(async () => {
+        return await getAccounts();
+      });
+
+      if (accounts !== "continue") {
+        if (
+          typeof accounts !== "undefined" &&
+          accounts &&
+          accounts.length > 0
+        ) {
+          setCurrentAccount(accounts[0]);
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const getBalance = await provider.getBalance(accounts[0]);
+          const bal = ethers.utils.formatEther(getBalance);
+          console.log(accounts[0], provider, getBalance, bal);
+          setAccountBalance(bal);
+          return true;
+        } else {
+          setCurrentAccount([]);
+          return false;
+        }
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    const checkWallet = async () => {
+      let isConnected = await checkIfWalletConnected();
+      if (typeof isConnected === "boolean") {
+        isConnected = await connectWallet();
+        if (typeof isConnected === "boolean" && isConnected) {
+          await connectingWithSmartContract();
+        }
+      }
+    };
+    try {
+      checkWallet();
+    } catch (error) {
+      if (error.code === 4001) {
+        setError(
+          "User Reject the request to connect to the wallet. Please allow your wallet to be accessed!"
+        );
+        setOpenError(true);
+      }
+    }
+  }, []);
 
   //---UPLOAD TO IPFS FUNCTION
   const uploadToIPFS = async (file) => {
@@ -162,7 +168,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   //--- createSale FUNCTION
   const createSale = async (url, formInputPrice, isReselling, id) => {
     try {
-      console.log(url, formInputPrice, isReselling, id);
+      // console.log(url, formInputPrice, isReselling, id);
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
 
       const contract = await connectingWithSmartContract();
@@ -178,11 +184,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
           });
 
       await transaction.wait();
-      console.log(transaction);
+      // console.log(transaction);
     } catch (error) {
       setError("error while creating sale");
       setOpenError(true);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -201,7 +207,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
       const provider = new ethers.providers.JsonRpcProvider();
 
-      console.log(provider);
+      // console.log(provider);
       const contract = fetchContract(provider);
       // const contract = fetchContract(provider);
 
@@ -233,14 +239,14 @@ export const NFTMarketplaceProvider = ({ children }) => {
           }
         )
       );
-      console.log(items);
+      // console.log(items);
       return items;
 
       // }
     } catch (error) {
       // setError("Error while fetching NFTS");
       // setOpenError(true);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -319,24 +325,16 @@ export const NFTMarketplaceProvider = ({ children }) => {
   //------------------------------------------------------------------
 
   //----TRANSFER FUNDS
-
-  const fetchTransferFundsContract = (signerOrProvider) =>
-    new ethers.Contract(
-      transferFundsAddress,
-      transferFundsABI,
-      signerOrProvider
-    );
-
   const connectToTransferFunds = async () => {
     try {
-      const web3Modal = new Wenb3Modal();
+      const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = fetchTransferFundsContract(signer);
       return contract;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   //---TRANSFER FUNDS
@@ -348,7 +346,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
     try {
       if (currentAccount) {
         const contract = await connectToTransferFunds();
-        console.log(address, ether, message);
+        // console.log(address, ether, message);
 
         const unFormatedPrice = ethers.utils.parseEther(ether);
         // //FIRST METHOD TO TRANSFER FUND
@@ -370,7 +368,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
           message
         );
 
-        console.log(transaction);
+        // console.log(transaction);
 
         setLoading(true);
         transaction.wait();
@@ -381,7 +379,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -404,12 +402,12 @@ export const NFTMarketplaceProvider = ({ children }) => {
         }));
 
         setTransactions(readTransaction);
-        console.log(transactions);
+        // console.log(transactions);
       } else {
-        console.log("On Ethereum");
+        // console.log("On Ethereum");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   return (
