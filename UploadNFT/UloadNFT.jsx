@@ -1,19 +1,24 @@
+// Library Imports
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
 import { MdOutlineHttp, MdOutlineAttachFile } from "react-icons/md";
 import { FaPercent } from "react-icons/fa";
-import { AiTwotonePropertySafety } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { AiTwotonePropertySafety } from "react-icons/ai";
 
-//INTERNAL IMPORT
-import Style from "./Upload.module.css";
-import formStyle from "../AccountPage/Form/Form.module.css";
-import images from "../img";
+// Custom Components and Functions Imports
 import { Button } from "../components/componentsindex.js";
 import { DropZone } from "../UploadNFT/uploadNFTIndex.js";
 
-const UloadNFT = ({ uploadToIPFS, createNFT }) => {
+// Data Related Imports
+import images from "../img";
+
+// Styles Imports
+import formStyle from "../AccountPage/Form/Form.module.css";
+import Style from "./Upload.module.css";
+
+const UloadNFT = ({ uploadToIPFS, createNFT, setPublishLoading }) => {
   const [price, setPrice] = useState("");
   const [active, setActive] = useState(0);
   const [name, setName] = useState("");
@@ -24,8 +29,6 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
   const [category, setCategory] = useState(0);
   const [properties, setProperties] = useState("");
   const [image, setImage] = useState(null);
-
-  const router = useRouter();
 
   const categoryArry = [
     {
@@ -54,10 +57,39 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
     },
   ];
 
+  const router = useRouter();
+
+  const handleUpload = async () => {
+    try {
+      setPublishLoading(true);
+      const url = await uploadToIPFS(image);
+      console.log(url);
+      await createNFT(
+        name,
+        price,
+        url,
+        description,
+        router
+        // website,
+        // royalties,
+        // fileSize,
+        // category,
+        // properties
+      );
+      setPublishLoading(false);
+    } catch (error) {
+      setPublishLoading(false);
+    }
+  };
+
+  const handlePreview = () => {
+    console.log("preview");
+  };
+
   return (
     <div className={Style.upload}>
       <DropZone
-        title="JPG, PNG, WEBM , MAX 100MB"
+        title="JPG, PNG, WEBM, MAX 10MB"
         heading="Drag & drop file"
         subHeading="or Browse media on your device"
         name={name}
@@ -68,7 +100,7 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
         category={category}
         properties={properties}
         setImage={setImage}
-        uploadToIPFS={uploadToIPFS}
+        setFileSize={setFileSize}
       />
 
       <div className={Style.upload_box}>
@@ -81,25 +113,22 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-
         <div className={formStyle.Form_box_input}>
           <label htmlFor="website">Website</label>
           <div className={formStyle.Form_box_input_box}>
             <div className={formStyle.Form_box_input_box_icon}>
               <MdOutlineHttp />
             </div>
-
             <input
               type="text"
               placeholder="website"
               onChange={(e) => setWebsite(e.target.value)}
             />
           </div>
-
           <p className={Style.upload_box_input_para}>
-            include a link to this URL on this item's detail page,
-            so that users can click to learn more about it. You are welcome to
-            link to your own webpage with more details.
+            Enhance the item's detail page by including a clickable link to this
+            URL, providing users with further information and the option to
+            visit your personal webpage for additional details.
           </p>
         </div>
 
@@ -124,7 +153,6 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
           <p className={Style.upload_box_input_para}>
             Choose an exiting collection or create a new one
           </p>
-
           <div className={Style.upload_box_slider_div}>
             {categoryArry.map((el, i) => (
               <div
@@ -177,7 +205,9 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
               <input
                 type="text"
                 placeholder="165MB"
-                onChange={(e) => setFileSize(e.target.value)}
+                disabled={true}
+                defaultValue={fileSize}
+                value={fileSize}
               />
             </div>
           </div>
@@ -213,25 +243,12 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
         <div className={Style.upload_box_btn}>
           <Button
             btnName="Upload"
-            handleClick={async () =>
-              createNFT(
-                name,
-                price,
-                image,
-                description,
-                router
-                // website,
-                // royalties,
-                // fileSize,
-                // category,
-                // properties
-              )
-            }
+            handleClick={handleUpload}
             classStyle={Style.upload_box_btn_style}
           />
           <Button
             btnName="Preview"
-            handleClick={() => {}}
+            handleClick={() => handlePreview}
             classStyle={Style.upload_box_btn_style}
           />
         </div>

@@ -45,16 +45,37 @@ export const fetchTransferFundsContract = (signerOrProvider) =>
 // to connect to NFTMarketplace Contract
 export const connectingWithSmartContract = async () => {
   try {
-    const web3Modal = new Web3Modal();
+    const web3Modal = new Web3Modal({
+      network: "maticmum",
+      cacheProvider: true,
+    });
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = fetchContract(signer);
+    // const provider = new ethers.providers.JsonRpcProvider("");
+    // const contract = fetchContract(provider);
+    console.log(
+      provider,
+      contract,
+      await provider.listAccounts(),
+      await provider.getNetwork()
+    );
     return contract;
   } catch (error) {
     console.log("Something went wrong while connecting with contract", error);
   }
 };
+
+// const abc = async () => {
+//   if ((await ethereum.request({ method: "eth_accounts" })).length > 0) {
+//     const cont = await connectingWithSmartContract();
+//     console.log(cont);
+//     console.log(await cont.fetchMarketItems());
+//   }
+// };
+
+// abc();
 
 export const requestAccounts = async () => {
   return await window.ethereum.request({

@@ -27,10 +27,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
 
-  // console.log(
-  //   `error=>${error} / openError=>${openError} / currentAccount=>${currentAccount} / accountBalance=>${accountBalance}`
-  // );
-
   const walletRequests = async (func) => {
     try {
       return func();
@@ -133,48 +129,39 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   }, []);
 
-  //---UPLOAD TO IPFS FUNCTION
   const uploadToIPFS = async (file) => {
     try {
       const added = await client.add({ content: file });
       const url = `${subdomain}/ipfs/${added.path}`;
       return url;
     } catch (error) {
+      console.log(error);
       setError("Error Uploading to IPFS");
       setOpenError(true);
     }
   };
 
-  //---CREATENFT FUNCTION
   const createNFT = async (name, price, image, description, router) => {
     if (!name || !description || !price || !image)
       return setError("Data Is Missing"), setOpenError(true);
-
     const data = JSON.stringify({ name, description, image });
-
     try {
       const added = await client.add(data);
-
-      const url = `https://infura-ipfs.io/ipfs/${added.path}`;
-
+      const url = `${subdomain}/ipfs/${added.path}`;
       await createSale(url, price);
       router.push("/searchPage");
     } catch (error) {
+      console.log(error);
       setError("Error while creating NFT");
       setOpenError(true);
     }
   };
 
-  //--- createSale FUNCTION
   const createSale = async (url, formInputPrice, isReselling, id) => {
     try {
-      // console.log(url, formInputPrice, isReselling, id);
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
-
       const contract = await connectingWithSmartContract();
-
       const listingPrice = await contract.getListingPrice();
-
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
             value: listingPrice.toString(),
@@ -182,10 +169,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
         : await contract.resellToken(id, price, {
             value: listingPrice.toString(),
           });
-
       await transaction.wait();
       // console.log(transaction);
     } catch (error) {
+      console.log(error);
       setError("error while creating sale");
       setOpenError(true);
       // console.log(error);
