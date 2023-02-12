@@ -41,16 +41,14 @@ contract NFTMarketplace is ERC721URIStorage {
         _;
     }
 
-    constructor() ERC721("Metaverse Tokens", "METT") {
+    constructor() ERC721("Smart Tokens", "SMT") {
         owner = payable(msg.sender);
     }
 
     /* Updates the listing price of the contract */
-    function updateListingPrice(uint256 _listingPrice)
-        public
-        payable
-        onlyOwner
-    {
+    function updateListingPrice(
+        uint256 _listingPrice
+    ) public payable onlyOwner {
         require(
             owner == msg.sender,
             "Only marketplace owner can update listing price."
@@ -64,11 +62,10 @@ contract NFTMarketplace is ERC721URIStorage {
     }
 
     /* Mints a token and lists it in the marketplace */
-    function createToken(string memory tokenURI, uint256 price)
-        public
-        payable
-        returns (uint256)
-    {
+    function createToken(
+        string memory tokenURI,
+        uint256 price
+    ) public payable returns (uint256) {
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
 

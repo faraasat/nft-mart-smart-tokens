@@ -16,38 +16,38 @@ import {
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 
 const author = () => {
-  const followerArray = [
-    {
-      background: images.creatorbackground1,
-      user: images.user1,
-      seller: "7d64gf748849j47fy488444",
-    },
-    {
-      background: images.creatorbackground2,
-      user: images.user2,
-      seller: "7d64gf748849j47fy488444",
-    },
-    {
-      background: images.creatorbackground3,
-      user: images.user3,
-      seller: "7d64gf748849j47fy488444",
-    },
-    {
-      background: images.creatorbackground4,
-      user: images.user4,
-      seller: "7d64gf748849j47fy488444",
-    },
-    {
-      background: images.creatorbackground5,
-      user: images.user5,
-      seller: "7d64gf748849j47fy488444",
-    },
-    {
-      background: images.creatorbackground6,
-      user: images.user6,
-      seller: "7d64gf748849j47fy488444",
-    },
-  ];
+  // const followerArray = [
+  //   {
+  //     background: images.creatorbackground1,
+  //     user: images.user1,
+  //     seller: "7d64gf748849j47fy488444",
+  //   },
+  //   {
+  //     background: images.creatorbackground2,
+  //     user: images.user2,
+  //     seller: "7d64gf748849j47fy488444",
+  //   },
+  //   {
+  //     background: images.creatorbackground3,
+  //     user: images.user3,
+  //     seller: "7d64gf748849j47fy488444",
+  //   },
+  //   {
+  //     background: images.creatorbackground4,
+  //     user: images.user4,
+  //     seller: "7d64gf748849j47fy488444",
+  //   },
+  //   {
+  //     background: images.creatorbackground5,
+  //     user: images.user5,
+  //     seller: "7d64gf748849j47fy488444",
+  //   },
+  //   {
+  //     background: images.creatorbackground6,
+  //     user: images.user6,
+  //     seller: "7d64gf748849j47fy488444",
+  //   },
+  // ];
 
   const [collectiables, setCollectiables] = useState(true);
   const [created, setCreated] = useState(false);
@@ -55,7 +55,6 @@ const author = () => {
   const [follower, setFollower] = useState(false);
   const [following, setFollowing] = useState(false);
 
-  //IMPORT SMART CONTRACT DATA
   const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(
     NFTMarketplaceContext
   );
@@ -64,21 +63,25 @@ const author = () => {
   const [myNFTs, setMyNFTs] = useState([]);
 
   useEffect(() => {
-    fetchMyNFTsOrListedNFTs("fetchItemsListed").then((items) => {
-      setNfts(items);
-    });
+    if (currentAccount) {
+      fetchMyNFTsOrListedNFTs("fetchItemsListed").then((items) => {
+        setNfts(items);
+      });
+    }
   }, []);
 
   useEffect(() => {
-    fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items) => {
-      setMyNFTs(items);
-    });
+    if (currentAccount) {
+      fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items) => {
+        setMyNFTs(items);
+      });
+    }
   }, []);
 
   return (
     <div className={Style.author}>
       <Banner bannerImage={images.creatorbackground2} />
-      <AuthorProfileCard currentAccount={currentAccount} />
+      {/* <AuthorProfileCard currentAccount={currentAccount} /> */}
       <AuthorTaps
         setCollectiables={setCollectiables}
         setCreated={setCreated}
@@ -86,7 +89,6 @@ const author = () => {
         setFollower={setFollower}
         setFollowing={setFollowing}
       />
-
       <AuthorNFTCardBox
         collectiables={collectiables}
         created={created}
@@ -96,7 +98,7 @@ const author = () => {
         nfts={nfts}
         myNFTS={myNFTs}
       />
-      <Title
+      {/* <Title
         heading="Popular Creators"
         paragraph="Click on music icon and enjoy NTF music or audio
 "
@@ -105,7 +107,7 @@ const author = () => {
         {followerArray.map((el, i) => (
           <FollowerTabCard i={i} el={el} />
         ))}
-      </div>
+      </div> */}
 
       <Brand />
     </div>

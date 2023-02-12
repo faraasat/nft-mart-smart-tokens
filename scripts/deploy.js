@@ -12,7 +12,7 @@ async function main() {
 
   // await transferFunds.deployed();
 
-  console.log(` deployed contract Address ${nftMarketplace.address}`);
+  console.log(`deployed contract Address ${nftMarketplace.address}`);
   // console.log(` deployed contract Address ${transferFunds.address}`);
 }
 

@@ -2,7 +2,7 @@
   width: 100%;
   padding-block: 1.5rem;
   position: relative;
-  /* z-index: 111111111; */
+  z-index: 15;
 }
 
 .navbar_container {

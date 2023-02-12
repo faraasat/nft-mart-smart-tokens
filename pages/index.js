@@ -8,13 +8,7 @@ import {
   BigNFTSilder,
   Subscribe,
   Title,
-  Category,
-  Filter,
   NFTCard,
-  Collection,
-  AudioLive,
-  FollowerTab,
-  Slider,
   Brand,
   Video,
   Loader,
@@ -28,37 +22,32 @@ import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 import Style from "../styles/index.module.css";
 
 const Home = () => {
-  const { checkIfWalletConnected, currentAccount } = useContext(
-    NFTMarketplaceContext
-  );
-  // useEffect(() => {
-  //   checkIfWalletConnected();
-  // }, []);
   const { fetchNFTs } = useContext(NFTMarketplaceContext);
   const [nfts, setNfts] = useState([]);
-  const [nftsCopy, setNftsCopy] = useState([]);
+  const [nftLoading, setNftLoading] = useState(false);
 
   useEffect(() => {
-    if (currentAccount) {
+    try {
+      setNftLoading(true);
       fetchNFTs().then((items) => {
-        console.log(nfts);
         if (items) {
           setNfts(items?.reverse());
-          setNftsCopy(items);
         }
       });
+      setNftLoading(false);
+    } catch (err) {
+      setNftLoading(false);
     }
   }, []);
 
-  //CREATOR LIST
-  const creators = getTopCreators(nfts);
+  // const creators = getTopCreators(nfts);
 
   return (
     <div className={Style.homePage}>
       <HeroSection />
       <Service />
-      <BigNFTSilder />
-      <Title
+      {/* <BigNFTSilder /> */}
+      {/* <Title
         heading="Audio Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
@@ -71,21 +60,45 @@ const Home = () => {
         <Loader />
       ) : (
         <FollowerTab TopCreator={creators} />
-      )}
-
-      <Slider />
-      <Collection />
+      )} */}
+      {/* <Slider />
+      <Collection /> */}
       <Title
         heading="Featured NFTs"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
-      <Filter />
-      {nfts.length == 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
-      <Title
+      {/* <Filter /> */}
+      {nftLoading && nfts.length == 0 ? (
+        <Loader />
+      ) : !nftLoading && nfts.length == 0 ? (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            height: 200,
+          }}
+        >
+          <div
+            style={{
+              width: "80%",
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 20,
+              fontSize: 30,
+            }}
+          >
+            🧐 OOPs...?!? No NFT Found!
+          </div>
+        </div>
+      ) : (
+        <NFTCard NFTData={nfts} />
+      )}
+      {/* <Title
         heading="Browse by category"
         paragraph="Explore the NFTs in the most featured categories."
       />
-      <Category />
+      <Category /> */}
       <Subscribe />
       <Brand />
       <Video />

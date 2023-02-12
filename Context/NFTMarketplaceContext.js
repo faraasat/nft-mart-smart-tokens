@@ -50,7 +50,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const accounts = await walletRequests(async () => {
         return await requestAccounts();
       });
-      console.log(accounts);
       if (accounts !== "continue") {
         if (
           typeof accounts !== "undefined" &&
@@ -96,7 +95,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const getBalance = await provider.getBalance(accounts[0]);
           const bal = ethers.utils.formatEther(getBalance);
-          console.log(accounts[0], provider, getBalance, bal);
           setAccountBalance(bal);
           return true;
         } else {
@@ -135,7 +133,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const url = `${subdomain}/ipfs/${added.path}`;
       return url;
     } catch (error) {
-      console.log(error);
+      console.log("uploadToIPFS", error);
       setError("Error Uploading to IPFS");
       setOpenError(true);
     }
@@ -151,7 +149,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       await createSale(url, price);
       router.push("/searchPage");
     } catch (error) {
-      console.log(error);
+      console.log("createNFTLogs", error);
       setError("Error while creating NFT");
       setOpenError(true);
     }
@@ -170,16 +168,13 @@ export const NFTMarketplaceProvider = ({ children }) => {
             value: listingPrice.toString(),
           });
       await transaction.wait();
-      // console.log(transaction);
+      console.log("createSaleLogs=>", transaction);
     } catch (error) {
-      console.log(error);
+      console.log("createSaleErrors=>", error);
       setError("error while creating sale");
       setOpenError(true);
-      // console.log(error);
     }
   };
-
-  //--FETCHNFTS FUNCTION
 
   const fetchNFTs = async () => {
     try {
@@ -188,23 +183,12 @@ export const NFTMarketplaceProvider = ({ children }) => {
       // const connection = await web3Modal.connect();
       // const provider = new ethers.providers.Web3Provider(connection);) {
 
-      // const provider = new ethers.providers.JsonRpcProvider(
-      //   "https://polygon-mumbai.g.alchemy.com/v2/Yq1F4URSZIlAfsBKQiv_PAD5P3Fn6N6z"
-      // );
-
-      const provider = new ethers.providers.JsonRpcProvider();
-
-      // console.log(provider);
-      const contract = fetchContract(provider);
-      // const contract = fetchContract(provider);
-
+      const contract = await connectingWithSmartContract();
       const data = await contract.fetchMarketItems();
-
       const items = await Promise.all(
         data.map(
           async ({ tokenId, seller, owner, price: unformattedPrice }) => {
             const tokenURI = await contract.tokenURI(tokenId);
-
             const {
               data: { image, name, description },
             } = await axios.get(tokenURI, {});
@@ -212,7 +196,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
               unformattedPrice.toString(),
               "ether"
             );
-
             return {
               price,
               tokenId: tokenId.toNumber(),
@@ -226,24 +209,22 @@ export const NFTMarketplaceProvider = ({ children }) => {
           }
         )
       );
-      // console.log(items);
+      console.log("FetchNFTS => ", items);
       return items;
-
       // }
     } catch (error) {
       // setError("Error while fetching NFTS");
       // setOpenError(true);
-      // console.log(error);
+      console.log(error);
     }
   };
 
-  useEffect(() => {
-    // if (currentAccount) {
-    fetchNFTs();
-    // }
-  }, []);
+  // useEffect(() => {
+  //   // if (currentAccount) {
+  //   fetchNFTs();
+  //   // }
+  // }, []);
 
-  //--FETCHING MY NFT OR LISTED NFTs
   const fetchMyNFTsOrListedNFTs = async (type) => {
     try {
       if (currentAccount) {
@@ -288,10 +269,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    fetchNFTs();
     fetchMyNFTsOrListedNFTs();
   }, []);
 
-  //---BUY NFTs FUNCTION
   const buyNFT = async (nft) => {
     try {
       const contract = await connectingWithSmartContract();
@@ -309,9 +290,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
-  //------------------------------------------------------------------
-
-  //----TRANSFER FUNDS
   const connectToTransferFunds = async () => {
     try {
       const web3Modal = new Web3Modal();
@@ -324,7 +302,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       // console.log(error);
     }
   };
-  //---TRANSFER FUNDS
+
   const [transactionCount, setTransactionCount] = useState("");
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -370,7 +348,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
-  //FETCH ALL TRANSACTION
   const getAllTransactions = async () => {
     try {
       if (ethereum) {
@@ -397,6 +374,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       // console.log(error);
     }
   };
+
   return (
     <NFTMarketplaceContext.Provider
       value={{

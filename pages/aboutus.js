@@ -30,20 +30,20 @@ const aboutus = () => {
     },
   ];
 
-  const factsArray = [
-    {
-      title: "10K+",
-      info: "Articles have been published around the world (as of Sept. 30, 2023)",
-    },
-    {
-      title: "100K+",
-      info: "Registered users account (as of Sept. 30, 2023)",
-    },
-    {
-      title: "220+",
-      info: "Countries and regions have our presence (as of Sept. 30, 2023",
-    },
-  ];
+  // const factsArray = [
+  //   {
+  //     title: "10K+",
+  //     info: "Articles have been published around the world (as of Sept. 30, 2023)",
+  //   },
+  //   {
+  //     title: "100K+",
+  //     info: "Registered users account (as of Sept. 30, 2023)",
+  //   },
+  //   {
+  //     title: "220+",
+  //     info: "Countries and regions have our presence (as of Sept. 30, 2023",
+  //   },
+  // ];
   return (
     <div className={Style.aboutus}>
       <div className={Style.aboutus_box}>
@@ -51,11 +51,11 @@ const aboutus = () => {
           <div className={Style.aboutus_box_hero_left}>
             <h1>👋 About Us.</h1>
             <p>
-            We are a cutting-edge NFT marketplace, dedicated to revolutionizing 
-            the world of digital art and collectibles. Our passion for innovation 
-            and creativity has driven us to build a platform where creators, 
-            collectors, and investors can interact and transact in a secure and 
-            seamless manner.
+              We are a cutting-edge NFT marketplace, dedicated to
+              revolutionizing the world of digital art and collectibles. Our
+              passion for innovation and creativity has driven us to build a
+              platform where creators, collectors, and investors can interact
+              and transact in a secure and seamless manner.
             </p>
           </div>
           <div className={Style.aboutus_box_hero_right}>
@@ -66,9 +66,9 @@ const aboutus = () => {
         <div className={Style.aboutus_box_title}>
           <h2>⛱ Team</h2>
           <p>
-          We are a team that is a dynamic and collaborative group of professionals 
-          who work together to solve problems and create solutions to create 
-          the world a better place.
+            We are a team that is a dynamic and collaborative group of
+            professionals who work together to solve problems and create
+            solutions to create the world a better place.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ const aboutus = () => {
           </div>
         </div>
 
-        <div className={Style.aboutus_box_title}>
+        {/* <div className={Style.aboutus_box_title}>
           <h2>🚀 Project Visionboard</h2>
           <p>
           </p>
@@ -105,7 +105,7 @@ const aboutus = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
       <Brand />
     </div>

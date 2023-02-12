@@ -35,12 +35,12 @@ const Profile = ({ currentAccount }) => {
               <Link href={{ pathname: "/author" }}>My Profile</Link>
             </p>
           </div>
-          <div className={Style.profile_menu_one_item}>
+          {/* <div className={Style.profile_menu_one_item}>
             <FaRegImage />
             <p>
               <Link href={{ pathname: "/author" }}>My Items</Link>
             </p>
-          </div>
+          </div> */}
           <div className={Style.profile_menu_one_item}>
             <FaUserEdit />
             <p>
@@ -48,7 +48,6 @@ const Profile = ({ currentAccount }) => {
             </p>
           </div>
         </div>
-
         <div className={Style.profile_menu_two}>
           <div className={Style.profile_menu_one_item}>
             <MdHelpCenter />

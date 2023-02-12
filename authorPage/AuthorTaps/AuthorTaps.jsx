@@ -89,7 +89,7 @@ const AuthorTaps = ({
             >
               Own NFT
             </button>
-            <button
+            {/* <button
               className={`${activeBtn == 3 ? Style.active : ""}`}
               onClick={(e) => openTab(e)}
             >
@@ -106,11 +106,11 @@ const AuthorTaps = ({
               onClick={(e) => openTab(e)}
             >
               Followers
-            </button>
+            </button> */}
           </div>
         </div>
 
-        <div className={Style.AuthorTaps_box_right}>
+        {/* <div className={Style.AuthorTaps_box_right}>
           <div
             className={Style.AuthorTaps_box_right_para}
             onClick={() => openDropDownList()}
@@ -133,7 +133,7 @@ const AuthorTaps = ({
               ))}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

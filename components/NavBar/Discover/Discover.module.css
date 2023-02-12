@@ -1,12 +1,17 @@
-
-.discover{
-    padding: .5rem 1rem;
-    transition:  all .3s ease-in;
-    z-index: 2222222222;
+.discover {
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease-in;
+  z-index: 2222222222;
 }
 
-.discover:hover{
-    background-color: var(--icons-color);
-    color: var(--shadow-dark-color);
-    border-radius: .3rem;
+.discover > a {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+}
+
+.discover:hover {
+  background-color: var(--icons-color);
+  color: var(--shadow-dark-color);
+  border-radius: 0.3rem;
 }

@@ -1,31 +1,32 @@
 import React from "react";
 import Image from "next/image";
-import { DiJqueryLogo } from "react-icons/di";
 import {
   TiSocialFacebook,
   TiSocialLinkedin,
   TiSocialTwitter,
   TiSocialYoutube,
   TiSocialInstagram,
-  TiArrowSortedDown,
-  TiArrowSortedUp,
 } from "react-icons/ti";
 import { RiSendPlaneFill } from "react-icons/ri";
-
-//INTERNAL IMPORT
-import Style from "./Footer.module.css";
 import images from "../../img";
 import { Discover, HelpCenter } from "../NavBar/index";
+import Link from "next/link";
+
+import Style from "./Footer.module.css";
 
 const Footer = () => {
   return (
     <div className={Style.footer}>
       <div className={Style.footer_box}>
         <div className={Style.footer_box_social}>
-          {/* <Image src={images.logo} alt="footer logo" height={100} width={100} /> */}
-          <a href="/">
-            <DiJqueryLogo className={Style.footer_box_social_logo} />
-          </a>
+          <Link href="/">
+            <Image
+              src={images.logo}
+              alt="footer logo"
+              height={100}
+              width={100}
+            />
+          </Link>
           <p>
             Pakistan's first and largest digital marketplace for crypto
             collectibles and non-fungible tokens (NFTs). Buy, sell, and discover
@@ -70,8 +71,8 @@ const Footer = () => {
           </div>
           <div className={Style.subscribe_box_info}>
             <p>
-              Discover, collect, and sell extraordinary NFTs in the
-              most trending NFT marketplace
+              Discover, collect, and sell extraordinary NFTs in the most
+              trending NFT marketplace
             </p>
           </div>
         </div>
