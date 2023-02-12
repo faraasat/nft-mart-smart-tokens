@@ -75,7 +75,7 @@ const aboutus = () => {
         <div className={Style.aboutus_box_founder}>
           <div className={Style.aboutus_box_founder_box}>
             {founderArray.map((el, i) => (
-              <div className={Style.aboutus_box_founder_box_img}>
+              <div className={Style.aboutus_box_founder_box_img} key={i}>
                 <Image
                   src={el.images}
                   alt={el.name}

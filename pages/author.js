@@ -51,9 +51,9 @@ const author = () => {
 
   const [collectiables, setCollectiables] = useState(true);
   const [created, setCreated] = useState(false);
-  const [like, setLike] = useState(false);
-  const [follower, setFollower] = useState(false);
-  const [following, setFollowing] = useState(false);
+  // const [like, setLike] = useState(false);
+  // const [follower, setFollower] = useState(false);
+  // const [following, setFollowing] = useState(false);
 
   const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(
     NFTMarketplaceContext
@@ -61,20 +61,34 @@ const author = () => {
 
   const [nfts, setNfts] = useState([]);
   const [myNFTs, setMyNFTs] = useState([]);
+  const [nftListedLoading, setNftListedLoading] = useState(false);
+  const [nftOwnLoading, setNftOwnLoading] = useState(false);
 
   useEffect(() => {
-    if (currentAccount) {
-      fetchMyNFTsOrListedNFTs("fetchItemsListed").then((items) => {
-        setNfts(items);
-      });
+    try {
+      setNftListedLoading(true);
+      if (currentAccount && currentAccount.length > 0) {
+        fetchMyNFTsOrListedNFTs("fetchItemsListed").then((items) => {
+          setNfts(items);
+        });
+      }
+      setNftListedLoading(false);
+    } catch (err) {
+      setNftListedLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (currentAccount) {
-      fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items) => {
-        setMyNFTs(items);
-      });
+    try {
+      setNftOwnLoading(true);
+      if (currentAccount && currentAccount.length > 0) {
+        fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items) => {
+          setMyNFTs(items);
+        });
+      }
+      setNftOwnLoading(false);
+    } catch (err) {
+      setNftOwnLoading(false);
     }
   }, []);
 
@@ -85,18 +99,21 @@ const author = () => {
       <AuthorTaps
         setCollectiables={setCollectiables}
         setCreated={setCreated}
-        setLike={setLike}
-        setFollower={setFollower}
-        setFollowing={setFollowing}
+        // setLike={setLike}
+        // setFollower={setFollower}
+        // setFollowing={setFollowing}
       />
       <AuthorNFTCardBox
         collectiables={collectiables}
         created={created}
-        like={like}
-        follower={follower}
-        following={following}
+        // like={like}
+        // follower={follower}
+        // following={following}
         nfts={nfts}
         myNFTS={myNFTs}
+        nftOwnLoading={nftOwnLoading}
+        nftListedLoading={nftListedLoading}
+        currentAccount={currentAccount}
       />
       {/* <Title
         heading="Popular Creators"

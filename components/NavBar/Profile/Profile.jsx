@@ -5,7 +5,6 @@ import { MdHelpCenter } from "react-icons/md";
 import { TbDownloadOff, TbDownload } from "react-icons/tb";
 import Link from "next/link";
 
-//INTERNAL IMPORT
 import Style from "./Profile.module.css";
 import images from "../../../img";
 
@@ -41,12 +40,12 @@ const Profile = ({ currentAccount }) => {
               <Link href={{ pathname: "/author" }}>My Items</Link>
             </p>
           </div> */}
-          <div className={Style.profile_menu_one_item}>
+          {/* <div className={Style.profile_menu_one_item}>
             <FaUserEdit />
             <p>
               <Link href={{ pathname: "/account" }}>Edit Profile</Link>
             </p>
-          </div>
+          </div> */}
         </div>
         <div className={Style.profile_menu_two}>
           <div className={Style.profile_menu_one_item}>

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 
 import Style from "./Discover.module.css";
+import { NFTMarketplaceContext } from "../../../Context/NFTMarketplaceContext";
 
 const Discover = () => {
+  const { currentAccount } = useContext(NFTMarketplaceContext);
+
   const discover = [
     // {
     //   name: "Collection",
@@ -21,10 +24,10 @@ const Discover = () => {
     //   name: "NFT Details",
     //   link: "NFT-details",
     // },
-    {
-      name: "Account Setting",
-      link: "account",
-    },
+    // {
+    //   name: "Account Setting",
+    //   link: "account",
+    // },
     {
       name: "Upload NFT",
       link: "uploadNFT",
@@ -40,11 +43,25 @@ const Discover = () => {
   ];
   return (
     <div>
-      {discover.map((el, i) => (
-        <div key={i + 1} className={Style.discover}>
-          <Link href={{ pathname: `${el.link}` }}>{el.name}</Link>
-        </div>
-      ))}
+      {discover.map((el, i) => {
+        if (
+          el.name === "Upload NFT" &&
+          currentAccount &&
+          currentAccount.length > 0
+        ) {
+          return (
+            <div key={i + 1} className={Style.discover}>
+              <Link href={{ pathname: `${el.link}` }}>{el.name}</Link>
+            </div>
+          );
+        } else if (el.name !== "Upload NFT") {
+          return (
+            <div key={i + 1} className={Style.discover}>
+              <Link href={{ pathname: `${el.link}` }}>{el.name}</Link>
+            </div>
+          );
+        }
+      })}
     </div>
   );
 };
