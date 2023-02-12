@@ -3,6 +3,7 @@ import React from "react";
 //INTERNAL IMPORT
 import Style from "../styles/subscription.module.css";
 import Subscription from "../Subscription/Subscription";
+import Head from "next/head";
 const subscription = () => {
   const subscriptionArray = [
     {
@@ -16,11 +17,7 @@ const subscription = () => {
       plan: "BASIC",
       price: "$15/mo",
       popular: "POPULAR",
-      service: [
-        "Everything in Starter",
-        "100 Mints",
-        "Progress Reports",
-      ],
+      service: ["Everything in Starter", "100 Mints", "Progress Reports"],
 
       info: "Pan Details",
     },
@@ -39,20 +36,25 @@ const subscription = () => {
     },
   ];
   return (
-    <div className={Style.Subscription}>
-      <div className={Style.Subscription_box}>
-        <div className={Style.Subscription_box_info}>
-          <h1>💎 Subscription</h1>
-          <p>Pricing that fits any of you needs.</p>
-        </div>
+    <>
+      <Head>
+        <title>Smart Token - Subscription</title>
+      </Head>
+      <div className={Style.Subscription}>
+        <div className={Style.Subscription_box}>
+          <div className={Style.Subscription_box_info}>
+            <h1>💎 Subscription</h1>
+            <p>Pricing that fits any of you needs.</p>
+          </div>
 
-        <div className={Style.Subscription_box_box}>
-          {subscriptionArray.map((el, i) => (
-            <Subscription key={i + 1} i={1} el={el} />
-          ))}
+          <div className={Style.Subscription_box_box}>
+            {subscriptionArray.map((el, i) => (
+              <Subscription key={i + 1} i={1} el={el} />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

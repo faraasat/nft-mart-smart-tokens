@@ -14,7 +14,10 @@ const MyApp = ({ Component, pageProps }) => (
         name="description"
         content="Here you can create smart tokens that can be lended and borrowed, transferred, bidded and minted"
       />
-      <meta name="keywords" content="HTML, CSS, JavaScript" />
+      <meta
+        name="keywords"
+        content="metaverse, token, marketplace, bid, mint, burn, tokens, smart, smart tokens, erc20, erc721, erc1155, fungible, non fungible, chain, blockchain, web3"
+      />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </Head>
     <NFTMarketplaceProvider>

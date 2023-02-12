@@ -4,7 +4,7 @@ import Link from "next/link";
 import Style from "./Discover.module.css";
 import { NFTMarketplaceContext } from "../../../Context/NFTMarketplaceContext";
 
-const Discover = () => {
+const Discover = ({ setDiscover }) => {
   const { currentAccount } = useContext(NFTMarketplaceContext);
 
   const discover = [
@@ -50,13 +50,21 @@ const Discover = () => {
           currentAccount.length > 0
         ) {
           return (
-            <div key={i + 1} className={Style.discover}>
+            <div
+              key={i + 1}
+              className={Style.discover}
+              onClick={() => setDiscover(false)}
+            >
               <Link href={{ pathname: `${el.link}` }}>{el.name}</Link>
             </div>
           );
         } else if (el.name !== "Upload NFT") {
           return (
-            <div key={i + 1} className={Style.discover}>
+            <div
+              key={i + 1}
+              className={Style.discover}
+              onClick={() => setDiscover(false)}
+            >
               <Link href={{ pathname: `${el.link}` }}>{el.name}</Link>
             </div>
           );

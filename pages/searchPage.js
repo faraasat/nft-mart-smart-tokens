@@ -9,6 +9,7 @@ import { NFTCardTwo, Banner } from "../collectionPage/collectionIndex";
 import images from "../img";
 
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
+import Head from "next/head";
 
 const searchPage = () => {
   const { fetchNFTs, setError } = useContext(NFTMarketplaceContext);
@@ -69,42 +70,47 @@ const searchPage = () => {
   //   images.nft_image_2,
   // ];
   return (
-    <div className={Style.searchPage}>
-      <Banner bannerImage={images.creatorbackground2} />
-      <SearchBar
-        onHandleSearch={onHandleSearch}
-        onClearSearch={onClearSearch}
-      />
-      {/* <Filter /> */}
-      {nftLoading || nfts === "" ? (
-        <Loader />
-      ) : !nftLoading && nfts && nfts.length == 0 ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            height: 200,
-          }}
-        >
+    <>
+      <Head>
+        <title>Smart Token - Search NFTs</title>
+      </Head>
+      <div className={Style.searchPage}>
+        <Banner bannerImage={images.creatorbackground2} />
+        <SearchBar
+          onHandleSearch={onHandleSearch}
+          onClearSearch={onClearSearch}
+        />
+        {/* <Filter /> */}
+        {nftLoading || nfts === "" ? (
+          <Loader />
+        ) : !nftLoading && nfts && nfts.length == 0 ? (
           <div
             style={{
-              width: "80%",
+              width: "100%",
               display: "flex",
               justifyContent: "center",
-              marginTop: 20,
-              fontSize: 30,
+              height: 200,
             }}
           >
-            🧐 OOPs...?!? No NFT Found!
+            <div
+              style={{
+                width: "80%",
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 20,
+                fontSize: 30,
+              }}
+            >
+              🧐 OOPs...?!? No NFT Found!
+            </div>
           </div>
-        </div>
-      ) : (
-        <NFTCard NFTData={nfts} />
-      )}
-      {/* <Slider /> */}
-      <Brand />
-    </div>
+        ) : (
+          <NFTCard NFTData={nfts} />
+        )}
+        {/* <Slider /> */}
+        <Brand />
+      </div>
+    </>
   );
 };
 

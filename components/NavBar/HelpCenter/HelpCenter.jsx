@@ -4,7 +4,7 @@ import Link from "next/link";
 //INTERNAL IMPORT
 import Style from "./HelpCenter.module.css";
 
-const HelpCenter = () => {
+const HelpCenter = ({ setHelp }) => {
   const helpCenter = [
     {
       name: "About",
@@ -30,7 +30,11 @@ const HelpCenter = () => {
   return (
     <div className={Style.box}>
       {helpCenter.map((el, i) => (
-        <div className={Style.helpCenter} key={i + 1}>
+        <div
+          className={Style.helpCenter}
+          key={i + 1}
+          onClick={() => setHelp(false)}
+        >
           <Link href={{ pathname: `${el.link}` }}>{el.name}</Link>
         </div>
       ))}

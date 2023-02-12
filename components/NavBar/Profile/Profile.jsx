@@ -13,7 +13,7 @@ const Profile = ({ currentAccount }) => {
     <div className={Style.profile}>
       <div className={Style.profile_account}>
         <div className={Style.profile_account_img}>
-          <Image src={images.user1} alt="user profile" width={70} height={70} />
+          <Image src={images.userblockie} alt="user profile" width={70} height={70} />
         </div>
         <div className={Style.profile_account_info}>
           <small>{currentAccount}</small>

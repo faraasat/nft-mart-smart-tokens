@@ -132,9 +132,9 @@ const AuthorNFTCardBox = ({
                 ❗ Please Connect Your Wallet!
               </div>
             </div>
-          ) : nftListedLoading ? (
+          ) : nftListedLoading || nfts === "" ? (
             <Loader />
-          ) : !nftListedLoading && (!nfts || (nfts && nfts.length === 0)) ? (
+          ) : !nftListedLoading && nfts && nfts.length === 0 ? (
             <div
               style={{
                 width: "100%",
@@ -184,9 +184,9 @@ const AuthorNFTCardBox = ({
                 ❗ Please Connect Your Wallet!
               </div>
             </div>
-          ) : nftOwnLoading ? (
+          ) : nftOwnLoading || myNFTS === "" ? (
             <Loader />
-          ) : !nftOwnLoading && (!myNFTS || (myNFTS && myNFTS.length === 0)) ? (
+          ) : !nftOwnLoading && myNFTS && myNFTS.length === 0 ? (
             <div
               style={{
                 width: "100%",

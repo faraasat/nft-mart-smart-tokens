@@ -220,12 +220,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   // if (currentAccount) {
-  //   fetchNFTs();
-  //   // }
-  // }, []);
-
   const fetchMyNFTsOrListedNFTs = async (type) => {
     try {
       if (currentAccount) {
@@ -261,9 +255,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
             }
           )
         );
+        console.log(items);
         return items;
       }
     } catch (error) {
+      console.log(error);
       // setError("Error while fetching listed NFTs");
       // setOpenError(true);
     }
@@ -276,7 +272,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   const buyNFT = async (nft) => {
     try {
-      const contract = await connectingWithSmartContract();
+      const contract = await connectingWithSmartContractUsingWeb3Modal();
       const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
 
       const transaction = await contract.createMarketSale(nft.tokenId, {

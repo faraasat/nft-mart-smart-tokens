@@ -82,7 +82,7 @@ const NavBar = () => {
             <p onClick={(e) => openMenu(e)}>Discover</p>
             {discover && (
               <div className={Style.navbar_container_right_discover_box}>
-                <Discover />
+                <Discover setDiscover={setDiscover} />
               </div>
             )}
           </div>
@@ -91,7 +91,7 @@ const NavBar = () => {
             <p onClick={(e) => openMenu(e)}>Help Center</p>
             {help && (
               <div className={Style.navbar_container_right_help_box}>
-                <HelpCenter />
+                <HelpCenter setHelp={setHelp} />
               </div>
             )}
           </div>
@@ -113,7 +113,7 @@ const NavBar = () => {
             <div className={Style.navbar_container_right_profile_box}>
               <div className={Style.navbar_container_right_profile}>
                 <Image
-                  src={images.user1}
+                  src={images.userblockie}
                   alt="Profile"
                   width={40}
                   height={40}

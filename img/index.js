@@ -11,6 +11,7 @@ import creatorbackground9 from "./creatorbackground-9.jpg";
 import creatorbackground10 from "./creatorbackground-10.jpg";
 import creatorbackground11 from "./creatorbackground-11.jpg";
 import user1 from "./user-1.png";
+import userblockie from "./user-blockie.png";
 import user2 from "./user-2.png";
 import user3 from "./user-3.png";
 import user4 from "./user-4.png";
@@ -126,4 +127,5 @@ export default {
   errorgif,
   transfer,
   transferEther,
+  userblockie,
 };
