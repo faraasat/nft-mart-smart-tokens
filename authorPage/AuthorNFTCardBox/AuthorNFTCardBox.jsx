@@ -134,7 +134,7 @@ const AuthorNFTCardBox = ({
             </div>
           ) : nftListedLoading ? (
             <Loader />
-          ) : !nftListedLoading && nfts && nfts.length === 0 ? (
+          ) : !nftListedLoading && (!nfts || (nfts && nfts.length === 0)) ? (
             <div
               style={{
                 width: "100%",
@@ -186,7 +186,7 @@ const AuthorNFTCardBox = ({
             </div>
           ) : nftOwnLoading ? (
             <Loader />
-          ) : !nftOwnLoading && myNFTS && myNFTS.length === 0 ? (
+          ) : !nftOwnLoading && (!myNFTS || (myNFTS && myNFTS.length === 0)) ? (
             <div
               style={{
                 width: "100%",

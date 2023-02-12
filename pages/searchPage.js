@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import Style from "../styles/searchPage.module.css";
-import { Slider, Brand, Loader } from "../components/componentsindex";
+import { Slider, Brand, Loader, NFTCard } from "../components/componentsindex";
 import { SearchBar } from "../SearchPage/searchBarIndex";
 import { Filter } from "../components/componentsindex";
 
@@ -12,40 +12,50 @@ import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 
 const searchPage = () => {
   const { fetchNFTs, setError } = useContext(NFTMarketplaceContext);
-  const [nfts, setNfts] = useState([]);
-  const [nftsCopy, setNftsCopy] = useState([]);
+  const [nfts, setNfts] = useState("");
+  const [nftsCopy, setNftsCopy] = useState("");
   const [nftLoading, setNftLoading] = useState(false);
 
   useEffect(() => {
+    setNftLoading(true);
     try {
-      setNftLoading(true);
       fetchNFTs().then((items) => {
-        setNfts(items.reverse());
+        setNfts(items?.reverse());
         setNftsCopy(items);
+        if (!items) {
+          setNfts([]);
+          setNftsCopy([]);
+        }
       });
       setNftLoading(false);
     } catch (error) {
       setNftLoading(false);
       setError("Please reload the browser", error);
     }
+    setNftLoading(false);
   }, []);
 
   const onHandleSearch = (value) => {
-    const filteredNFTS = nfts.filter(({ name }) =>
-      name.toLowerCase().includes(value.toLowerCase())
-    );
-
-    if (filteredNFTS.length === 0) {
-      setNfts(nftsCopy);
-    } else {
-      setNfts(filteredNFTS);
+    console.log(value);
+    if (nfts !== "") {
+      if (value === "") {
+        setNfts(nftsCopy);
+      } else {
+        const filteredNFTS = nftsCopy.filter(({ name }) =>
+          name.toLowerCase().includes(value.toLowerCase())
+        );
+        setNfts(filteredNFTS);
+      }
+      // if (filteredNFTS.length === 0) {
+      //   setNfts(nftsCopy);
+      // } else {
+      //   setNfts(filteredNFTS);
+      // }
     }
   };
 
   const onClearSearch = () => {
-    if (nfts.length && nftsCopy.length) {
-      setNfts(nftsCopy);
-    }
+    setNfts(nftsCopy);
   };
 
   // const collectionArray = [
@@ -65,10 +75,10 @@ const searchPage = () => {
         onHandleSearch={onHandleSearch}
         onClearSearch={onClearSearch}
       />
-      <Filter />
-      {nftLoading && nfts.length == 0 ? (
+      {/* <Filter /> */}
+      {nftLoading || nfts === "" ? (
         <Loader />
-      ) : !nftLoading && nfts.length == 0 ? (
+      ) : !nftLoading && nfts && nfts.length == 0 ? (
         <div
           style={{
             width: "100%",

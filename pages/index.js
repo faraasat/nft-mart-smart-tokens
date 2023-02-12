@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   HeroSection,
   Service,
-  BigNFTSilder,
+  // BigNFTSilder,
   Subscribe,
   Title,
   NFTCard,
@@ -13,7 +13,7 @@ import {
   Video,
   Loader,
 } from "../components/componentsindex";
-import { getTopCreators } from "../TopCreators/TopCreators";
+// import { getTopCreators } from "../TopCreators/TopCreators";
 
 // Data Related Imports
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
@@ -23,22 +23,27 @@ import Style from "../styles/index.module.css";
 
 const Home = () => {
   const { fetchNFTs } = useContext(NFTMarketplaceContext);
-  const [nfts, setNfts] = useState([]);
+  const [nfts, setNfts] = useState("");
   const [nftLoading, setNftLoading] = useState(false);
 
   useEffect(() => {
+    setNftLoading(true);
     try {
-      setNftLoading(true);
       fetchNFTs().then((items) => {
         if (items) {
           setNfts(items?.reverse());
+        } else {
+          setNfts([]);
         }
       });
       setNftLoading(false);
     } catch (err) {
       setNftLoading(false);
     }
+    setNftLoading(false);
   }, []);
+
+  console.log(nftLoading, nfts);
 
   // const creators = getTopCreators(nfts);
 
@@ -68,9 +73,9 @@ const Home = () => {
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
       {/* <Filter /> */}
-      {nftLoading && nfts.length == 0 ? (
+      {nftLoading || nfts === "" ? (
         <Loader />
-      ) : !nftLoading && nfts.length == 0 ? (
+      ) : !nftLoading && nfts && nfts.length == 0 ? (
         <div
           style={{
             width: "100%",

@@ -59,6 +59,21 @@ export const connectingWithSmartContract = async () => {
       "https://polygon-mumbai.g.alchemy.com/v2/Yq1F4URSZIlAfsBKQiv_PAD5P3Fn6N6z"
     );
     const contract = fetchContract(provider);
+    // const signedContract = contract.connect(provider.getSigner());
+    // return signedContract;
+    return contract;
+  } catch (error) {
+    console.log("connectingWithSmartContract=> ", error);
+  }
+};
+
+export const connectingWithSmartContractUsingWeb3Modal = async () => {
+  try {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = fetchContract(signer);
     return contract;
   } catch (error) {
     console.log("connectingWithSmartContract=> ", error);

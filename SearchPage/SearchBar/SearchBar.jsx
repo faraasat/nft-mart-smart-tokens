@@ -30,7 +30,7 @@ const SearchBar = ({ onHandleSearch, onClearSearch }) => {
           onChange={(e) => setSearchItem(e.target.value)}
           value={searchItem}
         />
-        <BsArrowRight className={Style.SearchBar_box_icon} />
+        {/* <BsArrowRight className={Style.SearchBar_box_icon} /> */}
       </div>
     </div>
   );

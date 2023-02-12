@@ -12,17 +12,11 @@ const Profile = ({ currentAccount }) => {
   return (
     <div className={Style.profile}>
       <div className={Style.profile_account}>
-        <Image
-          src={images.user1}
-          alt="user profile"
-          width={50}
-          height={50}
-          className={Style.profile_account_img}
-        />
-
+        <div className={Style.profile_account_img}>
+          <Image src={images.user1} alt="user profile" width={70} height={70} />
+        </div>
         <div className={Style.profile_account_info}>
-          <p>DemoUser</p>
-          <small>{currentAccount.slice(0, 18)}..</small>
+          <small>{currentAccount}</small>
         </div>
       </div>
 

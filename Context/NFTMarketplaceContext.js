@@ -9,6 +9,7 @@ import Web3Modal from "web3modal";
 import {
   client,
   connectingWithSmartContract,
+  connectingWithSmartContractUsingWeb3Modal,
   fetchContract,
   fetchTransferFundsContract,
   getAccounts,
@@ -158,7 +159,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const createSale = async (url, formInputPrice, isReselling, id) => {
     try {
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
-      const contract = await connectingWithSmartContract();
+      const contract = await connectingWithSmartContractUsingWeb3Modal();
       const listingPrice = await contract.getListingPrice();
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
