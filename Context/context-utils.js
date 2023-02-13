@@ -12,14 +12,14 @@ import {
 } from "./constants";
 
 // project id and secret key for the IPFS API
-export const projectId = "2LRzojdW6k7pHCaQPH5C6oN2cOl";
-export const projectSecretKey = "d555b8395fb6630a48ad8cbdc5019532";
+export const projectId = "2Lh50dMU8ZZ6zOlsS0ReRxT5eaZ";
+export const projectSecretKey = "daf21bdb3a7df8d3b91ebedacaf21a82";
 export const auth = `Basic ${Buffer.from(
   `${projectId}:${projectSecretKey}`
 ).toString("base64")}`;
 
 // project url for IPFS
-export const subdomain = "https://nftplace.infura-ipfs.io";
+export const subdomain = "https://nftmart.infura-ipfs.io";
 
 // connection object for the IPFS client
 export const client = ipfsHttpClient({

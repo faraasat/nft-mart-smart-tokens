@@ -5,7 +5,7 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    domains: ["infura-ipfs.io", "nftplace.infura-ipfs.io"],
+    domains: ["infura-ipfs.io", "nftplace.infura-ipfs.io", "nftmart.infura-ipfs.io"],
   },
 };
 
