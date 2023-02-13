@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { BsImages } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+// import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 
 //INTERNAL IMPORT
 import Style from "./NFTDetailsImg.module.css";
-import images from "../../img";
+// import images from "../../img";
 
-const NFTDetailsImg = ({ nft }) => {
-  const [description, setDescription] = useState(true);
-  const [details, setDetails] = useState(true);
+const NFTDetailsImg = ({ nft, setImgDimensions }) => {
+  // const [description, setDescription] = useState(true);
+  // const [details, setDetails] = useState(true);
   const [like, setLike] = useState(false);
 
-  const openDescription = () => {
-    if (!description) {
-      setDescription(true);
-    } else {
-      setDescription(false);
-    }
-  };
+  // const openDescription = () => {
+  //   if (!description) {
+  //     setDescription(true);
+  //   } else {
+  //     setDescription(false);
+  //   }
+  // };
 
-  const openDetails = () => {
-    if (!details) {
-      setDetails(true);
-    } else {
-      setDetails(false);
-    }
-  };
+  // const openDetails = () => {
+  //   if (!details) {
+  //     setDetails(true);
+  //   } else {
+  //     setDetails(false);
+  //   }
+  // };
 
   const likeNFT = () => {
     if (!like) {
@@ -36,6 +36,16 @@ const NFTDetailsImg = ({ nft }) => {
       setLike(false);
     }
   };
+
+  useEffect(() => {
+    if (window && nft && nft.image) {
+      const img = document.createElement("img");
+      img.src = nft.image;
+      img.onload = () => {
+        setImgDimensions({ width: img.width, height: img.height });
+      };
+    }
+  }, [nft]);
 
   return (
     <div className={Style.NFTDetailsImg}>
@@ -58,18 +68,20 @@ const NFTDetailsImg = ({ nft }) => {
           </div>
 
           <div className={Style.NFTDetailsImg_box_NFT_img}>
-            <Image
-              src={nft.image}
-              className={Style.NFTDetailsImg_box_NFT_img_img}
-              alt="NFT image"
-              width={700}
-              height={800}
-              objectFit="cover"
-            />
+            {nft && nft.image && (
+              <Image
+                src={nft.image}
+                className={Style.NFTDetailsImg_box_NFT_img_img}
+                alt="NFT image"
+                width={700}
+                height={800}
+                objectFit="cover"
+              />
+            )}
           </div>
         </div>
 
-        <div
+        {/* <div
           className={Style.NFTDetailsImg_box_description}
           onClick={() => openDescription()}
         >
@@ -104,7 +116,7 @@ const NFTDetailsImg = ({ nft }) => {
               &nbsp; &nbsp; {nft.tokenId}
             </p>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

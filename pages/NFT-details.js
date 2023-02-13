@@ -7,6 +7,7 @@ import NFTDetailsPage from "../NFTDetailsPage/NFTDetailsPage";
 
 //IMPORT SMART CONTRACT DATA
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
+import Head from "next/head";
 const NFTDetails = () => {
   const { currentAccount } = useContext(NFTMarketplaceContext);
 
@@ -26,11 +27,16 @@ const NFTDetails = () => {
   }, [router.isReady]);
 
   return (
-    <div>
-      <NFTDetailsPage nft={nft} />
-      {/* <Category /> */}
-      <Brand />
-    </div>
+    <>
+      <Head>
+        <title>NFT Description</title>
+      </Head>
+      <div>
+        <NFTDetailsPage nft={nft} />
+        {/* <Category /> */}
+        <Brand />
+      </div>
+    </>
   );
 };
 
