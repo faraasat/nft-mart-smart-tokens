@@ -5,15 +5,11 @@ import { NFTDescription, NFTDetailsImg, NFTTabs } from "./NFTDetailsIndex";
 import Style from "./NFTDetailsPage.module.css";
 
 const NFTDetailsPage = ({ nft }) => {
-  const [imgDimensions, setImgDimensions] = useState({
-    width: "...",
-    height: "...",
-  });
   return (
     <div className={Style.NFTDetailsPage}>
       <div className={Style.NFTDetailsPage_box}>
-        <NFTDetailsImg nft={nft} setImgDimensions={setImgDimensions} />
-        <NFTDescription nft={nft} imgDimensions={imgDimensions} />
+        <NFTDetailsImg nft={nft} />
+        <NFTDescription nft={nft} />
       </div>
     </div>
   );

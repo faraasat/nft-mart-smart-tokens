@@ -33,7 +33,7 @@ import { Button } from "../../components/componentsindex.js";
 import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext";
 import { NFTMarketplaceAddress } from "../../Context/constants";
 
-const NFTDescription = ({ nft, imgDimensions }) => {
+const NFTDescription = ({ nft }) => {
   // const [social, setSocial] = useState(false);
   // const [NFTMenu, setNFTMenu] = useState(false);
   // const [history, setHistory] = useState(true);
@@ -41,8 +41,22 @@ const NFTDescription = ({ nft, imgDimensions }) => {
   // const [owner, setOwner] = useState(false);
   const [description, setDescription] = useState(true);
   const [details, setDetails] = useState(true);
+  const [imgDimensions, setImgDimensions] = useState({
+    width: "...",
+    height: "...",
+  });
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (window && nft && nft.image) {
+      const img = document.createElement("img");
+      img.src = nft.image;
+      img.onload = () => {
+        setImgDimensions({ width: img.width, height: img.height });
+      };
+    }
+  }, [nft]);
 
   // useEffect(() => {
   //   if (window) {
@@ -203,11 +217,12 @@ const NFTDescription = ({ nft, imgDimensions }) => {
               />
               <div className={Style.NFTDescription_box_profile_box_left_info}>
                 <small>Creator</small> <br />
-                <Link href={{ pathname: "/author", query: `${nft.seller}` }}>
+                {/* <Link href={{ pathname: "/author", query: `${nft.seller}` }}> */}
                   <span>
-                    {nft.seller} <MdVerified />
+                    {nft.seller} 
+                    {/* <MdVerified /> */}
                   </span>
-                </Link>
+                {/* </Link> */}
               </div>
             </div>
 
@@ -314,6 +329,7 @@ const NFTDescription = ({ nft, imgDimensions }) => {
                 classStyle={Style.button}
               />*/}
             </div>
+            <div style={{ height: 20 }}></div>
 
             <div
               className={Style.NFTDetailsImg_box_description}

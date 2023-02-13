@@ -9,6 +9,7 @@ import Style from "./NFTCard.module.css";
 import images from "../../img";
 
 const NFTCard = ({ NFTData }) => {
+  console.log(NFTData);
   // const CardArray = [
   //   images.nft_image_1,
   //   images.nft_image_2,
@@ -34,77 +35,83 @@ const NFTCard = ({ NFTData }) => {
   // console.log(NFTData);
   return (
     <div className={Style.NFTCard}>
-      {NFTData && NFTData?.map((el, i) => (
-        <Link href={{ pathname: "/NFT-details", query: el }}>
-          <div className={Style.NFTCard_box} key={i + 1}>
-            <div className={Style.NFTCard_box_img}>
-              <Image
-                src={el.image}
-                alt="NFT images"
-                width={600}
-                height={600}
-                className={Style.NFTCard_box_img_img}
-              />
-            </div>
-
-            <div className={Style.NFTCard_box_update}>
-              <div className={Style.NFTCard_box_update_left}>
-                <div
-                  className={Style.NFTCard_box_update_left_like}
-                  onClick={() => likeNft()}
-                >
-                  {like ? (
-                    <AiOutlineHeart />
-                  ) : (
-                    <AiFillHeart
-                      className={Style.NFTCard_box_update_left_like_icon}
-                    />
-                  )}
-                  {""} 22
-                </div>
+      {NFTData &&
+        NFTData?.map((el, i) => (
+          <Link href={{ pathname: "/NFT-details", query: el }} key={i}>
+            <div className={Style.NFTCard_box} key={i + 1}>
+              <div className={Style.NFTCard_box_img}>
+                <Image
+                  src={el.image}
+                  alt="NFT images"
+                  width={600}
+                  height={600}
+                  className={Style.NFTCard_box_img_img}
+                />
               </div>
 
-              <div className={Style.NFTCard_box_update_right}>
-                <div className={Style.NFTCard_box_update_right_info}>
-                  <small>Remaining time</small>
-                  <p>3h : 15m : 20s</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={Style.NFTCard_box_update_details}>
-              <div className={Style.NFTCard_box_update_details_price}>
-                <div className={Style.NFTCard_box_update_details_price_box}>
-                  <h4>
-                    {el.name} #{el.tokenId}
-                  </h4>
-
-                  <div
-                    className={Style.NFTCard_box_update_details_price_box_box}
+              <div className={Style.NFTCard_box_update}>
+                <div className={Style.NFTCard_box_update_left}>
+                  {/* <div
+                    className={Style.NFTCard_box_update_left_like}
+                    onClick={() => likeNft()}
                   >
-                    <div
-                      className={Style.NFTCard_box_update_details_price_box_bid}
-                    >
-                      <small>Current Bid</small>
-                      <p>{el.price}ETH</p>
-                    </div>
-                    <div
-                      className={
-                        Style.NFTCard_box_update_details_price_box_stock
-                      }
-                    >
-                      <small>61 in stock</small>
-                    </div>
+                    {like ? (
+                      <AiOutlineHeart />
+                    ) : (
+                      <AiFillHeart
+                        className={Style.NFTCard_box_update_left_like_icon}
+                      />
+                    )}
+                    {""} 22
+                  </div> */}
+                  <div style={{padding: "5px 2px", fontSize: 20}}>#{el.tokenId}</div>
+                </div>
+
+                <div className={Style.NFTCard_box_update_right}>
+                  <div className={Style.NFTCard_box_update_right_info}>
+                    {/* <small>Remaining time</small>
+                    <p>3h : 15m : 20s</p> */}
+                    <p>{el.seller}</p>
+                    {/* <small>{el.seller}</small> */}
                   </div>
                 </div>
               </div>
-              <div className={Style.NFTCard_box_update_details_category}>
-                <BsImages />
+
+              <div className={Style.NFTCard_box_update_details}>
+                <div className={Style.NFTCard_box_update_details_price}>
+                  <div className={Style.NFTCard_box_update_details_price_box}>
+                    <h4>{el.name}</h4>
+
+                    <div
+                      className={Style.NFTCard_box_update_details_price_box_box}
+                    >
+                      <div
+                        className={
+                          Style.NFTCard_box_update_details_price_box_bid
+                        }
+                      >
+                        <small>Current Price</small>
+                        <div>
+                          <p>{el.price} ETH</p>
+                        </div>
+                      </div>
+                      {/* <div
+                        className={
+                          Style.NFTCard_box_update_details_price_box_stock
+                        }
+                      >
+                        <small>61 in stock</small>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+                <div className={Style.NFTCard_box_update_details_category}>
+                  <BsImages />
+                </div>
               </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        ))}
     </div>
   );
 };

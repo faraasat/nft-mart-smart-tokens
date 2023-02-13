@@ -8,7 +8,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Style from "./NFTDetailsImg.module.css";
 // import images from "../../img";
 
-const NFTDetailsImg = ({ nft, setImgDimensions }) => {
+const NFTDetailsImg = ({ nft }) => {
   // const [description, setDescription] = useState(true);
   // const [details, setDetails] = useState(true);
   const [like, setLike] = useState(false);
@@ -36,16 +36,6 @@ const NFTDetailsImg = ({ nft, setImgDimensions }) => {
       setLike(false);
     }
   };
-
-  useEffect(() => {
-    if (window && nft && nft.image) {
-      const img = document.createElement("img");
-      img.src = nft.image;
-      img.onload = () => {
-        setImgDimensions({ width: img.width, height: img.height });
-      };
-    }
-  }, [nft]);
 
   return (
     <div className={Style.NFTDetailsImg}>

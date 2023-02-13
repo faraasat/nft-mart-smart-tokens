@@ -26,6 +26,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [openError, setOpenError] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
   const [accountBalance, setAccountBalance] = useState("");
+  const [buyNFTLoading, SetBuyNFTLoading] = useState(false);
   const router = useRouter();
 
   const walletRequests = async (func) => {
@@ -271,6 +272,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   }, []);
 
   const buyNFT = async (nft) => {
+    SetBuyNFTLoading(true);
     try {
       const contract = await connectingWithSmartContractUsingWeb3Modal();
       const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
@@ -281,7 +283,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
       await transaction.wait();
       router.push("/author");
+      SetBuyNFTLoading(false);
     } catch (error) {
+      SetBuyNFTLoading(false);
       setError("Error While buying NFT");
       setOpenError(true);
     }
@@ -375,6 +379,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   return (
     <NFTMarketplaceContext.Provider
       value={{
+        buyNFTLoading,
         checkIfWalletConnected,
         connectWallet,
         uploadToIPFS,

@@ -1,6 +1,6 @@
 // Library Imports
 import React, { useContext, useState } from "react";
-import PropagateLoader from "react-spinners/PacmanLoader";
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 // Custom Components and Functions Imports
 import { UploadNFT } from "../UploadNFT/uploadNFTIndex";
@@ -24,7 +24,7 @@ const uploadNFT = () => {
       <>
         {publishLoading && (
           <div className={Style.uploadNFT_loader_align}>
-            <PropagateLoader loading={publishLoading} size={70} color="#fff" />
+            <PacmanLoader loading={publishLoading} size={70} color="#fff" />
             <h2>Please Wait. We are minting your NFT!</h2>
           </div>
         )}
