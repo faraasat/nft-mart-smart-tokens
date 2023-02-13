@@ -108,59 +108,58 @@ const AuthorNFTCardBox = ({
 
   return (
     <div className={Style.AuthorNFTCardBox}>
-      {collectiables && (
-        <>
-          {!currentAccount ||
-          (currentAccount && currentAccount.length === 0) ? (
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                height: 200,
-              }}
-            >
-              <div
-                style={{
-                  width: "80%",
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: 20,
-                  fontSize: 30,
-                }}
-              >
-                ❗ Please Connect Your Wallet!
-              </div>
-            </div>
-          ) : nftListedLoading || nfts === "" ? (
-            <Loader />
-          ) : !nftListedLoading && nfts && nfts.length === 0 ? (
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                height: 200,
-              }}
-            >
-              <div
-                style={{
-                  width: "80%",
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: 20,
-                  fontSize: 30,
-                }}
-              >
-                🧐 OOPs...?!? No NFT Found!
-              </div>
-            </div>
-          ) : (
-            <NFTCardTwo NFTData={nfts} />
-          )}
-        </>
+      {/* {collectiables && (
+        <> */}
+      {!currentAccount || (currentAccount && currentAccount.length === 0) ? (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            height: 200,
+          }}
+        >
+          <div
+            style={{
+              width: "80%",
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 20,
+              fontSize: 30,
+            }}
+          >
+            ❗ Please Connect Your Wallet!
+          </div>
+        </div>
+      ) : nftListedLoading || nfts === "" ? (
+        <Loader />
+      ) : !nftListedLoading && nfts && nfts.length === 0 ? (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            height: 200,
+          }}
+        >
+          <div
+            style={{
+              width: "80%",
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 20,
+              fontSize: 30,
+            }}
+          >
+            🧐 OOPs...?!? No NFT Found!
+          </div>
+        </div>
+      ) : (
+        <NFTCardTwo NFTData={nfts} />
       )}
-      {created && (
+      {/* </>
+      )} */}
+      {/* {created && (
         <>
           {!currentAccount ||
           (currentAccount && currentAccount.length === 0) ? (
@@ -211,7 +210,7 @@ const AuthorNFTCardBox = ({
             <NFTCardTwo NFTData={myNFTS} />
           )}
         </>
-      )}
+      )} */}
       {/* {like && <NFTCardTwo NFTData={nfts} />}
       {follower && (
         <div className={Style.AuthorNFTCardBox_box}>

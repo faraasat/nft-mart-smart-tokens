@@ -61,9 +61,9 @@ const author = () => {
   );
 
   const [nfts, setNfts] = useState("");
-  const [myNFTs, setMyNFTs] = useState("");
+  // const [myNFTs, setMyNFTs] = useState("");
   const [nftListedLoading, setNftListedLoading] = useState(false);
-  const [nftOwnLoading, setNftOwnLoading] = useState(false);
+  // const [nftOwnLoading, setNftOwnLoading] = useState(false);
 
   useEffect(() => {
     setNftListedLoading(true);
@@ -82,24 +82,24 @@ const author = () => {
     setNftListedLoading(false);
   }, [currentAccount, collectiables]);
 
-  useEffect(() => {
-    setNftOwnLoading(true);
-    try {
-      if (currentAccount) {
-        fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items) => {
-          if (items) setMyNFTs(items);
-          else setMyNFTs([]);
-        });
-      }
-      setNftOwnLoading(false);
-    } catch (err) {
-      console.log(err);
-      setNftOwnLoading(false);
-    }
-    setNftOwnLoading(false);
-  }, [currentAccount, created]);
+  // useEffect(() => {
+  //   setNftOwnLoading(true);
+  //   try {
+  //     if (currentAccount) {
+  //       fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items) => {
+  //         if (items) setMyNFTs(items);
+  //         else setMyNFTs([]);
+  //       });
+  //     }
+  //     setNftOwnLoading(false);
+  //   } catch (err) {
+  //     console.log(err);
+  //     setNftOwnLoading(false);
+  //   }
+  //   setNftOwnLoading(false);
+  // }, [currentAccount, created]);
 
-  console.log(nfts, myNFTs);
+  // console.log(nfts, myNFTs);
 
   return (
     <>
@@ -117,14 +117,14 @@ const author = () => {
           // setFollowing={setFollowing}
         />
         <AuthorNFTCardBox
-          collectiables={collectiables}
+          // collectiables={collectiables}
           created={created}
           // like={like}
           // follower={follower}
           // following={following}
           nfts={nfts}
-          myNFTS={myNFTs}
-          nftOwnLoading={nftOwnLoading}
+          // myNFTS={myNFTs}
+          // nftOwnLoading={nftOwnLoading}
           nftListedLoading={nftListedLoading}
           currentAccount={currentAccount}
         />

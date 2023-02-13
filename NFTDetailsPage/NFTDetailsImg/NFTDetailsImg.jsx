@@ -41,7 +41,7 @@ const NFTDetailsImg = ({ nft }) => {
     <div className={Style.NFTDetailsImg}>
       <div className={Style.NFTDetailsImg_box}>
         <div className={Style.NFTDetailsImg_box_NFT}>
-          <div className={Style.NFTDetailsImg_box_NFT_like}>
+          {/* <div className={Style.NFTDetailsImg_box_NFT_like}>
             <BsImages className={Style.NFTDetailsImg_box_NFT_like_icon} />
             <p onClick={() => likeNFT()}>
               {like ? (
@@ -55,7 +55,7 @@ const NFTDetailsImg = ({ nft }) => {
               )}
               <span>23</span>
             </p>
-          </div>
+          </div> */}
 
           <div className={Style.NFTDetailsImg_box_NFT_img}>
             {nft && nft.image && (
